@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>کافی نت آراد | کاتالوگ فیلم و سریال</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#101114;color:#fff}
+header{padding:28px 18px;text-align:center;background:linear-gradient(135deg,#17181c,#26282d);border-bottom:3px solid #ff3b00}
+.logo{width:110px;height:110px;margin:auto;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;color:#ff3b00;font-size:42px;font-weight:900;box-shadow:0 8px 30px #0008}
+h1{margin:14px 0 4px;font-size:28px}.sub{color:#bbb}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+.search{width:100%;padding:15px 18px;border:1px solid #3a3d43;border-radius:14px;background:#1a1c20;color:#fff;font-size:16px;outline:none}
+.tabs{display:flex;gap:8px;margin:15px 0;flex-wrap:wrap}.tab{border:0;border-radius:12px;padding:10px 18px;background:#272a30;color:#ddd}.tab.active{background:#ff3b00;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.card{background:#1b1d21;border:1px solid #2d3036;border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s}.card:hover{transform:translateY(-3px)}
+.poster{width:100%;aspect-ratio:2/3;object-fit:cover;background:#303238}.info{padding:12px}.title{font-weight:700;font-size:16px}.meta{color:#aaa;font-size:13px;margin-top:6px}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:5;padding:20px;overflow:auto}.box{max-width:650px;margin:40px auto;background:#1b1d21;border-radius:20px;padding:20px;position:relative}.close{position:absolute;left:14px;top:10px;border:0;background:#333;color:#fff;border-radius:10px;padding:8px 12px;font-size:18px}
+.detail{display:grid;grid-template-columns:180px 1fr;gap:20px}.detail img{width:100%;border-radius:14px}.genre{color:#ff7040}
+@media(max-width:520px){.detail{grid-template-columns:110px 1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">آراد</div>
+  <h1>کافی نت آراد</h1>
+  <div class="sub">کاتالوگ فیلم و سریال</div>
+</header>
+<main class="wrap">
+  <input id="search" class="search" placeholder="جستجوی نام فیلم یا سریال...">
+  <div class="tabs">
+    <button class="tab active" data-type="all">همه</button>
+    <button class="tab" data-type="movie">فیلم</button>
+    <button class="tab" data-type="series">سریال</button>
+  </div>
+  <div id="grid" class="grid"></div>
+</main>
+<div id="modal" class="modal">
+ <div class="box">
+  <button class="close" onclick="closeModal()">×</button>
+  <div id="detail"></div>
+ </div>
+</div>
+<script>
+const items=[
+ {type:"movie",title:"نمونه فیلم ۱",year:"2025",genre:"اکشن، درام",story:"این بخش برای نمایش خلاصه داستان فیلم است. بعداً اطلاعات واقعی فیلم‌های شما جایگزین می‌شود.",poster:"https://placehold.co/500x750/222/ff3b00?text=Movie+1"},
+ {type:"movie",title:"نمونه فیلم ۲",year:"2024",genre:"کمدی، خانوادگی",story:"نمونه‌ای از خلاصه داستان برای نمایش در صفحه جزئیات.",poster:"https://placehold.co/500x750/222/ff3b00?text=Movie+2"},
+ {type:"series",title:"نمونه سریال ۱",year:"2025",genre:"جنایی، هیجانی",story:"نمونه‌ای از خلاصه داستان سریال. فهرست واقعی شما بعداً وارد می‌شود.",poster:"https://placehold.co/500x750/222/ff3b00?text=Series+1"},
+ {type:"series",title:"نمونه سریال ۲",year:"2023",genre:"درام",story:"این متن صرفاً برای تست نسخه اولیه کاتالوگ است.",poster:"https://placehold.co/500x750/222/ff3b00?text=Series+2"}
+];
+let type="all";
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const list=items.filter(x=>(type==="all"||x.type===type)&&x.title.toLowerCase().includes(q));
+ document.getElementById("grid").innerHTML=list.map((x,i)=>`<article class="card" onclick="openModal(${items.indexOf(x)})"><img class="poster" src="${x.poster}" loading="lazy"><div class="info"><div class="title">${x.title}</div><div class="meta">${x.year} • ${x.genre}</div></div></article>`).join("")||"<p>موردی پیدا نشد.</p>";
+}
+function openModal(i){
+ const x=items[i];
+ document.getElementById("detail").innerHTML=`<div class="detail"><img src="${x.poster}"><div><h2>${x.title}</h2><p><b>سال ساخت:</b> ${x.year}</p><p><b>ژانر:</b> <span class="genre">${x.genre}</span></p><p><b>خلاصه داستان:</b><br>${x.story}</p></div></div>`;
+ document.getElementById("modal").style.display="block";
+}
+function closeModal(){document.getElementById("modal").style.display="none"}
+document.getElementById("search").addEventListener("input",render);
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");type=b.dataset.type;render()});
+render();
+</script>
+</body>
+</html>
