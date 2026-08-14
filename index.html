@@ -2,66 +2,130 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0f12">
+<meta name="description" content="کافی نت آراد — کاتالوگ فیلم و سریال">
 <title>کافی نت آراد | کاتالوگ فیلم و سریال</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#101114;color:#fff}
-header{padding:28px 18px;text-align:center;background:linear-gradient(135deg,#17181c,#26282d);border-bottom:3px solid #ff3b00}
-.logo{width:110px;height:110px;margin:auto;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;color:#ff3b00;font-size:42px;font-weight:900;box-shadow:0 8px 30px #0008}
-h1{margin:14px 0 4px;font-size:28px}.sub{color:#bbb}
-.wrap{max-width:1100px;margin:auto;padding:20px}
-.search{width:100%;padding:15px 18px;border:1px solid #3a3d43;border-radius:14px;background:#1a1c20;color:#fff;font-size:16px;outline:none}
-.tabs{display:flex;gap:8px;margin:15px 0;flex-wrap:wrap}.tab{border:0;border-radius:12px;padding:10px 18px;background:#272a30;color:#ddd}.tab.active{background:#ff3b00;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
-.card{background:#1b1d21;border:1px solid #2d3036;border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s}.card:hover{transform:translateY(-3px)}
-.poster{width:100%;aspect-ratio:2/3;object-fit:cover;background:#303238}.info{padding:12px}.title{font-weight:700;font-size:16px}.meta{color:#aaa;font-size:13px;margin-top:6px}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:5;padding:20px;overflow:auto}.box{max-width:650px;margin:40px auto;background:#1b1d21;border-radius:20px;padding:20px;position:relative}.close{position:absolute;left:14px;top:10px;border:0;background:#333;color:#fff;border-radius:10px;padding:8px 12px;font-size:18px}
-.detail{display:grid;grid-template-columns:180px 1fr;gap:20px}.detail img{width:100%;border-radius:14px}.genre{color:#ff7040}
-@media(max-width:520px){.detail{grid-template-columns:110px 1fr}.grid{grid-template-columns:repeat(2,1fr)}}
-</style>
+<link rel="icon" href="assets/logo.svg">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <div class="logo">آراد</div>
-  <h1>کافی نت آراد</h1>
-  <div class="sub">کاتالوگ فیلم و سریال</div>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="#home"><img src="assets/logo.svg" alt="لوگو کافی نت آراد"><div><b>کافی نت آراد</b><span>کاتالوگ فیلم و سریال</span></div></a>
+    <nav><a href="#home">خانه</a><a href="#catalog">کاتالوگ</a><a href="#about">درباره</a></nav>
+    <button id="themeBtn" class="icon-btn" title="تغییر حالت نمایش">☼</button>
+  </div>
 </header>
-<main class="wrap">
-  <input id="search" class="search" placeholder="جستجوی نام فیلم یا سریال...">
-  <div class="tabs">
-    <button class="tab active" data-type="all">همه</button>
-    <button class="tab" data-type="movie">فیلم</button>
-    <button class="tab" data-type="series">سریال</button>
+
+<main id="home">
+<section class="hero container">
+  <div class="hero-copy">
+    <div class="eyebrow">ARAD CAFE NET • ENTERTAINMENT</div>
+    <h1>فیلم و سریال خوب،<br><em>برای یک انتخاب راحت.</em></h1>
+    <p>یک کاتالوگ تمیز و سریع برای پیدا کردن فیلم‌ها و سریال‌های پیشنهادی؛ با خلاصه، ژانر، امتیاز و جزئیات هر عنوان.</p>
+    <div class="hero-actions"><a class="btn primary" href="#catalog">مشاهده کاتالوگ</a><button class="btn ghost" id="randomBtn">یک انتخاب شانسی 🎲</button></div>
+    <div class="stats"><div><strong>۲۰</strong><span>عنوان منتخب</span></div><div><strong>۱۰</strong><span>فیلم</span></div><div><strong>۱۰</strong><span>سریال</span></div></div>
+  </div>
+  <div class="hero-card">
+    <div class="hero-poster"><img src="assets/poster-2.svg" alt="تلماسه بخش دوم"></div>
+    <div class="hero-info"><span>پیشنهاد ویژه</span><h3>تلماسه: بخش دوم</h3><p>علمی‌تخیلی • ماجراجویی</p><b>★ ۸.۶</b></div>
+  </div>
+</section>
+
+<section id="catalog" class="catalog container">
+  <div class="section-head"><div><span class="eyebrow">CATALOG</span><h2>کاتالوگ انتخابی آراد</h2></div><span id="count" class="count"></span></div>
+  <div class="tools">
+    <div class="search"><span>⌕</span><input id="search" placeholder="جستجوی نام فیلم یا سریال..." autocomplete="off"></div>
+    <div class="filters">
+      <button class="filter active" data-type="همه">همه</button>
+      <button class="filter" data-type="فیلم">فیلم‌ها</button>
+      <button class="filter" data-type="سریال">سریال‌ها</button>
+    </div>
+    <select id="sort"><option value="default">مرتب‌سازی: پیشنهادی</option><option value="rating">بیشترین امتیاز</option><option value="year">جدیدترین</option><option value="title">الفبایی</option></select>
   </div>
   <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" hidden>عنوانی با این مشخصات پیدا نشد.</div>
+</section>
+
+<section id="about" class="about container">
+  <div><span class="eyebrow">ABOUT</span><h2>کافی نت آراد</h2><p>این صفحه برای معرفی و دسته‌بندی فیلم و سریال طراحی شده و می‌تواند بعداً با پوسترهای واقعی، لینک تریلر، لینک دانلود قانونی، دسته‌بندی‌های بیشتر و اطلاعات اختصاصی مجموعه شما تکمیل شود.</p></div>
+  <div class="contact-card"><img src="assets/logo.svg" alt=""><div><b>کافی نت آراد</b><span>کاتالوگ فیلم و سریال</span></div><a href="#home">بازگشت به بالا ↑</a></div>
+</section>
 </main>
-<div id="modal" class="modal">
- <div class="box">
-  <button class="close" onclick="closeModal()">×</button>
-  <div id="detail"></div>
- </div>
+
+<footer><div class="container"><div>© ۱۴۰۵ کافی نت آراد</div><div>طراحی شده برای GitHub Pages</div></div></footer>
+
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <article class="modal-box">
+    <button class="modal-close" data-close>×</button>
+    <div id="modalContent"></div>
+  </article>
 </div>
 <script>
-const items=[
- {type:"movie",title:"نمونه فیلم ۱",year:"2025",genre:"اکشن، درام",story:"این بخش برای نمایش خلاصه داستان فیلم است. بعداً اطلاعات واقعی فیلم‌های شما جایگزین می‌شود.",poster:"https://placehold.co/500x750/222/ff3b00?text=Movie+1"},
- {type:"movie",title:"نمونه فیلم ۲",year:"2024",genre:"کمدی، خانوادگی",story:"نمونه‌ای از خلاصه داستان برای نمایش در صفحه جزئیات.",poster:"https://placehold.co/500x750/222/ff3b00?text=Movie+2"},
- {type:"series",title:"نمونه سریال ۱",year:"2025",genre:"جنایی، هیجانی",story:"نمونه‌ای از خلاصه داستان سریال. فهرست واقعی شما بعداً وارد می‌شود.",poster:"https://placehold.co/500x750/222/ff3b00?text=Series+1"},
- {type:"series",title:"نمونه سریال ۲",year:"2023",genre:"درام",story:"این متن صرفاً برای تست نسخه اولیه کاتالوگ است.",poster:"https://placehold.co/500x750/222/ff3b00?text=Series+2"}
-];
-let type="all";
-function render(){
- const q=document.getElementById("search").value.trim().toLowerCase();
- const list=items.filter(x=>(type==="all"||x.type===type)&&x.title.toLowerCase().includes(q));
- document.getElementById("grid").innerHTML=list.map((x,i)=>`<article class="card" onclick="openModal(${items.indexOf(x)})"><img class="poster" src="${x.poster}" loading="lazy"><div class="info"><div class="title">${x.title}</div><div class="meta">${x.year} • ${x.genre}</div></div></article>`).join("")||"<p>موردی پیدا نشد.</p>";
+const items = [{"id": 1, "type": "فیلم", "title": "اوپنهایمر", "en": "Oppenheimer", "year": 2023, "genre": "درام • تاریخی", "rating": "8.6", "duration": "180 دقیقه", "director": "کریستوفر نولان", "stars": "کیلین مورفی، امیلی بلانت، مت دیمون", "summary": "روایتی حماسی از زندگی جی. رابرت اوپنهایمر و مسیر پرتنش ساخت نخستین بمب اتم؛ داستانی درباره نبوغ، قدرت، سیاست و پیامدهای انتخاب‌های انسانی."}, {"id": 2, "type": "فیلم", "title": "تلماسه: بخش دوم", "en": "Dune: Part Two", "year": 2024, "genre": "علمی‌تخیلی • ماجراجویی", "rating": "8.6", "duration": "166 دقیقه", "director": "دنی ویلنوو", "stars": "تیموتی شالامه، زندایا، ربکا فرگوسن", "summary": "پل آتریدس در میان مردم فریمن به مسیر تازه‌ای قدم می‌گذارد و برای رویارویی با دشمنان خاندانش و تحقق سرنوشت خود آماده می‌شود."}, {"id": 3, "type": "فیلم", "title": "شهر گمشده", "en": "The Lost City", "year": 2022, "genre": "ماجراجویی • کمدی", "rating": "6.1", "duration": "112 دقیقه", "director": "آرون و آدام نی", "stars": "ساندرا بولاک، چنینگ تیتوم، دنیل ردکلیف", "summary": "یک نویسنده رمان‌های عاشقانه و مدل جلد کتابش درگیر ماجرایی واقعی و خطرناک می‌شوند؛ سفری سرگرم‌کننده با شوخی‌های فراوان و تعقیب‌وگریز."}, {"id": 4, "type": "فیلم", "title": "انگل", "en": "Parasite", "year": 2019, "genre": "درام • هیجانی", "rating": "8.5", "duration": "132 دقیقه", "director": "بونگ جون هو", "stars": "سونگ کانگ-هو، لی سون-کیون، چو یئو-جونگ", "summary": "دو خانواده از دو طبقه اجتماعی متفاوت در یک زنجیره اتفاقات هوشمندانه و غیرقابل پیش‌بینی به هم گره می‌خورند."}, {"id": 5, "type": "فیلم", "title": "میان‌ستاره‌ای", "en": "Interstellar", "year": 2014, "genre": "علمی‌تخیلی • درام", "rating": "8.7", "duration": "169 دقیقه", "director": "کریستوفر نولان", "stars": "متیو مک‌کانهی، آن هتوی، جسیکا چستین", "summary": "گروهی از فضانوردان از میان یک کرم‌چاله عبور می‌کنند تا در جست‌وجوی خانه‌ای تازه برای بشر، از مرزهای زمان و فضا فراتر بروند."}, {"id": 6, "type": "فیلم", "title": "شوالیه تاریکی", "en": "The Dark Knight", "year": 2008, "genre": "اکشن • جنایی", "rating": "9.0", "duration": "152 دقیقه", "director": "کریستوفر نولان", "stars": "کریستین بیل، هیث لجر، آرون اکهارت", "summary": "بتمن در برابر دشمنی غیرقابل پیش‌بینی قرار می‌گیرد؛ فیلمی تیره و پرتنش درباره نظم، هرج‌ومرج و بهای قهرمان بودن."}, {"id": 7, "type": "فیلم", "title": "گزارش اقلیت", "en": "Minority Report", "year": 2002, "genre": "علمی‌تخیلی • جنایی", "rating": "7.6", "duration": "145 دقیقه", "director": "استیون اسپیلبرگ", "stars": "تام کروز، کالین فارل، سامانتا مورتون", "summary": "در آینده‌ای که پلیس می‌تواند پیش از وقوع جرم، مجرم را شناسایی کند، یکی از افسران سیستم ناگهان خودش مظنون یک قتل آینده می‌شود."}, {"id": 8, "type": "فیلم", "title": "نجات سرباز رایان", "en": "Saving Private Ryan", "year": 1998, "genre": "جنگی • درام", "rating": "8.6", "duration": "169 دقیقه", "director": "استیون اسپیلبرگ", "stars": "تام هنکس، مت دیمون، تام سایزمور", "summary": "گروهی از سربازان مأمور می‌شوند یک سرباز را در میانه جنگ پیدا کنند و به خانه بازگردانند؛ سفری سخت با تمرکز بر فداکاری و انسانیت."}, {"id": 9, "type": "فیلم", "title": "مرد عنکبوتی: راهی به خانه نیست", "en": "Spider-Man: No Way Home", "year": 2021, "genre": "اکشن • ابرقهرمانی", "rating": "8.2", "duration": "148 دقیقه", "director": "جان واتس", "stars": "تام هالند، زندایا، بندیکت کامبربچ", "summary": "با به‌هم‌ریختن مرزهای جهان‌های موازی، پیتر پارکر با پیامدهایی روبه‌رو می‌شود که او را وارد بزرگ‌ترین ماجراجویی زندگی‌اش می‌کند."}, {"id": 10, "type": "فیلم", "title": "روح", "en": "Soul", "year": 2020, "genre": "انیمیشن • خانوادگی", "rating": "8.0", "duration": "100 دقیقه", "director": "پیت داکتر، کمپ پاورز", "stars": "جیمی فاکس، تینا فی", "summary": "یک نوازنده جَز پیش از رسیدن به مهم‌ترین اجرای زندگی‌اش وارد سفری عجیب درباره معنا، علاقه و ارزش لحظه‌های کوچک زندگی می‌شود."}, {"id": 11, "type": "سریال", "title": "بریکینگ بد", "en": "Breaking Bad", "year": 2008, "genre": "جنایی • درام", "rating": "9.5", "duration": "5 فصل", "director": "وینس گیلیگان", "stars": "برایان کرانستون، آرون پال", "summary": "معلم شیمی‌ای که با بحران مالی و بیماری روبه‌روست، وارد دنیای تولید مواد مخدر می‌شود و به‌تدریج مرزهای اخلاقی‌اش تغییر می‌کند."}, {"id": 12, "type": "سریال", "title": "شرلوک", "en": "Sherlock", "year": 2010, "genre": "معمایی • جنایی", "rating": "9.1", "duration": "4 فصل", "director": "مارک گیتیس، استیون موفات", "stars": "بندیکت کامبربچ، مارتین فریمن", "summary": "نسخه‌ای مدرن از کارآگاه مشهور لندن که با استدلال خارق‌العاده‌اش پرونده‌های پیچیده را حل می‌کند."}, {"id": 13, "type": "سریال", "title": "دارک", "en": "Dark", "year": 2017, "genre": "علمی‌تخیلی • معمایی", "rating": "8.7", "duration": "3 فصل", "director": "باران بو اودار", "stars": "لوئیس هوفمان، کارولین ایکهورن", "summary": "ناپدید شدن یک کودک، چهار خانواده را وارد رازهایی چندنسلی درباره زمان، سرنوشت و پیوندهای پنهان شهر می‌کند."}, {"id": 14, "type": "سریال", "title": "بازی تاج‌وتخت", "en": "Game of Thrones", "year": 2011, "genre": "فانتزی • درام", "rating": "9.2", "duration": "8 فصل", "director": "دیوید بنیاف، دی.بی. وایس", "stars": "امیلیا کلارک، کیت هرینگتون، پیتر دینکلیج", "summary": "خاندان‌های قدرتمند برای کنترل وستروس وارد نبردی سیاسی و نظامی می‌شوند؛ در حالی که تهدیدی بزرگ‌تر در شمال شکل می‌گیرد."}, {"id": 15, "type": "سریال", "title": "تد لاسو", "en": "Ted Lasso", "year": 2020, "genre": "کمدی • ورزشی", "rating": "8.8", "duration": "3 فصل", "director": "بیل لارنس، جیسون سودیکیس", "stars": "جیسون سودیکیس، هانا وادینگهام", "summary": "مربی خوش‌بین فوتبال آمریکایی به انگلستان می‌رود تا یک تیم فوتبال را هدایت کند و با روحیه مثبتش آرام‌آرام همه را تحت تأثیر قرار می‌دهد."}, {"id": 16, "type": "سریال", "title": "آخرین بازمانده از ما", "en": "The Last of Us", "year": 2023, "genre": "درام • پساآخرالزمانی", "rating": "8.7", "duration": "2 فصل", "director": "کریگ مازین، نیل دراکمن", "stars": "پدرو پاسکال، بلا رمزی", "summary": "پس از فروپاشی تمدن، مردی خسته و دختری نوجوان سفری خطرناک را در میان شهری ویران‌شده آغاز می‌کنند."}, {"id": 17, "type": "سریال", "title": "چیزهای عجیب", "en": "Stranger Things", "year": 2016, "genre": "علمی‌تخیلی • ماجراجویی", "rating": "8.6", "duration": "5 فصل", "director": "برادران دافر", "stars": "میلی بابی براون، فین ولفهارد، دیوید هاربر", "summary": "گروهی از نوجوانان در یک شهر کوچک با ناپدید شدن یک دوست و پدیده‌هایی فراطبیعی روبه‌رو می‌شوند."}, {"id": 18, "type": "سریال", "title": "آینه سیاه", "en": "Black Mirror", "year": 2011, "genre": "علمی‌تخیلی • آنتولوژی", "rating": "8.7", "duration": "7 فصل", "director": "چارلی بروکر", "stars": "مجموعه‌ای از بازیگران", "summary": "داستان‌هایی مستقل درباره رابطه پیچیده انسان با فناوری؛ گاهی تلخ، گاهی تکان‌دهنده و همیشه نزدیک به آینده‌ای آشنا."}, {"id": 19, "type": "سریال", "title": "دفتر", "en": "The Office", "year": 2005, "genre": "کمدی • موقعیت", "rating": "9.0", "duration": "9 فصل", "director": "گرگ دنیلز", "stars": "استیو کرل، رین ویلسون، جان کراسینسکی", "summary": "زندگی روزمره کارکنان یک شرکت کاغذسازی با طنزی خشک و شخصیت‌هایی به‌یادماندنی روایت می‌شود."}, {"id": 20, "type": "سریال", "title": "آرکین", "en": "Arcane", "year": 2021, "genre": "انیمیشن • فانتزی", "rating": "9.0", "duration": "2 فصل", "director": "کریستین لینک، الکس یی", "stars": "الا پورنل، هیلی استاینفلد، کیتی لیونگ", "summary": "دو خواهر در میان درگیری دو شهر و اختلافی عمیق میان طبقات اجتماعی، وارد مسیری پرتنش و احساسی می‌شوند."}];
+let type = "همه";
+let query = "";
+let sort = "default";
+const grid = document.getElementById("grid");
+const count = document.getElementById("count");
+const empty = document.getElementById("empty");
+
+function faNum(s) {
+  return String(s).replace(/[0-9]/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
 }
-function openModal(i){
- const x=items[i];
- document.getElementById("detail").innerHTML=`<div class="detail"><img src="${x.poster}"><div><h2>${x.title}</h2><p><b>سال ساخت:</b> ${x.year}</p><p><b>ژانر:</b> <span class="genre">${x.genre}</span></p><p><b>خلاصه داستان:</b><br>${x.story}</p></div></div>`;
- document.getElementById("modal").style.display="block";
+
+function card(item) {
+  return `<article class="card" data-id="${item.id}">
+    <div class="poster"><img src="assets/poster-${item.id}.svg" alt="${item.title}"><span class="badge">${item.type}</span><button class="heart" data-fav="${item.id}" title="افزودن به علاقه‌مندی">♡</button></div>
+    <div class="card-body">
+      <div class="meta"><span>${faNum(item.year)}</span><span>★ ${faNum(item.rating)}</span></div>
+      <h3>${item.title}</h3><p>${item.genre}</p>
+      <button class="details">جزئیات بیشتر <span>←</span></button>
+    </div>
+  </article>`;
 }
-function closeModal(){document.getElementById("modal").style.display="none"}
-document.getElementById("search").addEventListener("input",render);
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");type=b.dataset.type;render()});
+
+function render() {
+  let list = items.filter(x => (type==="همه" || x.type===type) && (x.title+" "+x.en+" "+x.genre).toLowerCase().includes(query.toLowerCase()));
+  if(sort==="rating") list.sort((a,b)=>parseFloat(b.rating)-parseFloat(a.rating));
+  if(sort==="year") list.sort((a,b)=>b.year-a.year);
+  if(sort==="title") list.sort((a,b)=>a.title.localeCompare(b.title,'fa'));
+  grid.innerHTML = list.map(card).join("");
+  count.textContent = faNum(list.length) + " عنوان";
+  empty.hidden = list.length !== 0;
+  document.querySelectorAll(".details").forEach(b=>b.addEventListener("click", e=>openModal(e.target.closest(".card").dataset.id)));
+  document.querySelectorAll(".poster img").forEach(img=>img.addEventListener("click", e=>openModal(e.target.closest(".card").dataset.id)));
+  document.querySelectorAll(".heart").forEach(b=>b.addEventListener("click", e=>{
+    e.stopPropagation(); b.classList.toggle("saved"); b.textContent = b.classList.contains("saved") ? "♥" : "♡";
+  }));
+}
+
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active"); type=btn.dataset.type; render();
+}));
+document.getElementById("search").addEventListener("input",e=>{query=e.target.value;render();});
+document.getElementById("sort").addEventListener("change",e=>{sort=e.target.value;render();});
+
+function openModal(id) {
+  const x=items.find(i=>i.id==id);
+  document.getElementById("modalContent").innerHTML = `<div class="modal-grid">
+    <div class="modal-poster"><img src="assets/poster-${x.id}.svg" alt="${x.title}"></div>
+    <div class="modal-info"><span class="badge static">${x.type}</span><h2>${x.title}</h2><div class="en">${x.en}</div>
+      <div class="detail-row"><span>سال</span><b>${faNum(x.year)}</b><span>امتیاز</span><b>★ ${faNum(x.rating)}</b></div>
+      <p class="summary">${x.summary}</p>
+      <dl><div><dt>ژانر</dt><dd>${x.genre}</dd></div><div><dt>کارگردان</dt><dd>${x.director}</dd></div><div><dt>بازیگران</dt><dd>${x.stars}</dd></div><div><dt>مدت / فصل</dt><dd>${x.duration}</dd></div></dl>
+      <button class="btn primary" onclick="document.querySelector('#modal').classList.remove('show')">بستن</button>
+    </div></div>`;
+  document.getElementById("modal").classList.add("show"); document.getElementById("modal").setAttribute("aria-hidden","false");
+}
+document.querySelectorAll("[data-close]").forEach(x=>x.addEventListener("click",()=>{document.getElementById("modal").classList.remove("show");}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape") document.getElementById("modal").classList.remove("show");});
+
+document.getElementById("randomBtn").addEventListener("click",()=>openModal(items[Math.floor(Math.random()*items.length)].id));
+document.getElementById("themeBtn").addEventListener("click",()=>document.body.classList.toggle("light"));
 render();
 </script>
 </body>
