@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کتابخانه فیلم و سریال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #f5c842;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(245, 200, 66, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8888aa;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        .category {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: #f5c842;
+            border-right: 4px solid #f5c842;
+            padding-right: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title span {
+            font-size: 1rem;
+            color: #8888aa;
+            font-weight: normal;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #2a2a4a;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #f5c842;
+            box-shadow: 0 10px 30px rgba(245, 200, 66, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .card-title-en {
+            font-size: 0.85rem;
+            color: #8888aa;
+            font-weight: normal;
+            direction: ltr;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .card-year {
+            background: #f5c842;
+            color: #0f0f1a;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .card-genre {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0 12px 0;
+        }
+
+        .genre-tag {
+            background: #2a2a4a;
+            color: #bbbbdd;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border: 1px solid #3a3a5a;
+        }
+
+        .card-synopsis {
+            font-size: 0.9rem;
+            color: #c0c0d0;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 12px;
+        }
+
+        .card-poster {
+            font-size: 0.75rem;
+            color: #666688;
+            border-top: 1px solid #2a2a4a;
+            padding-top: 10px;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            background: #0a0a18;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 4px;
+        }
+
+        .card-poster::before {
+            content: "🖼️ ";
+            color: #f5c842;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .card-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 کتابخانه فیلم و سریال</h1>
+        <p class="subtitle">لیست کامل فیلم‌ها و سریال‌ها به همراه ژانر، سال، خلاصه و کلمه کلیدی پوستر</p>
+
+        <!-- ================ فیلم‌های سینمایی ================ -->
+        <div class="category">
+            <div class="category-title">🎥 فیلم‌های سینمایی <span>(سینمای جهان)</span></div>
+            <div class="grid" id="movieGrid"></div>
+        </div>
+
+        <!-- ================ سریال‌ها ================ -->
+        <div class="category">
+            <div class="category-title">📺 سریال‌ها <span>(مجموعه‌های تلویزیونی)</span></div>
+            <div class="grid" id="seriesGrid"></div>
+        </div>
+
+        <!-- ================ انیمیشن و کارتون ================ -->
+        <div class="category">
+            <div class="category-title">🧸 انیمیشن و کارتون <span>(پویانمایی)</span></div>
+            <div class="grid" id="animationGrid"></div>
+        </div>
+
+        <!-- ================ فیلم‌های رزمی و اکشن ================ -->
+        <div class="category">
+            <div class="category-title">🥋 فیلم‌های رزمی و اکشن <span>(Martial Arts & Action)</span></div>
+            <div class="grid" id="actionGrid"></div>
+        </div>
+
+        <!-- ================ فیلم‌های فارسی/هندی و سایر ================ -->
+        <div class="category">
+            <div class="category-title">🇮🇷🇮🇳 فیلم‌های فارسی، هندی و سایر <span>(دوبله فارسی و غیره)</span></div>
+            <div class="grid" id="otherGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // دیتابیس کامل فیلم‌ها و سریال‌ها
+        // ============================================================
+
+        const movies = [
+            // ---- فیلم‌های سینمایی جهان ----
+            { titleFa: "تلقین", titleEn: "Inception", year: 2010, genre: ["اکشن", "ماجراجویی", "علمی‑تخیلی"], synopsis: "دزدی که رازها را از درون رویاها می‌دزدد، برای کاشتن یک ایده در ذهن یک مدیرعامل مأمور می‌شود. فیلمی پیچیده درباره دستکاری واقعیت و زمان.", poster: "Inception 2010 poster" },
+            { titleFa: "حیثیت", titleEn: "The Prestige", year: 2006, genre: ["درام", "معمایی", "علمی‑تخیلی"], synopsis: "دو شعبده‌باز رقیب در لندن قرن نوزدهم، برای خلق توهم نهایی جنگی تلخ و وسواس‌آمیز دارند. خود فیلم مثل یک حقه سینمایی است.", poster: "The Prestige 2006 poster" },
+            { titleFa: "میان‌ستاره‌ای", titleEn: "Interstellar", year: 2014, genre: ["ماجراجویی", "درام", "علمی‑تخیلی"], synopsis: "گروهی از کاوشگران از یک کرم‌چاله در فضا عبور می‌کنند تا نجات بشریت را از زمین رو به نابودی ممکن کنند.", poster: "Interstellar 2014 poster" },
+            { titleFa: "علاءالدین", titleEn: "Aladdin", year: 2019, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "بازسازی زنده‌نمای قصه کلاسیک. یک ولگرد خیابانی با کمک یک جن جادویی، باید قلب پرنسس یاسمین را به دست آورد و جعفر شرور را شکست دهد.", poster: "Aladdin 2019 poster" },
+            { titleFa: "دامبو", titleEn: "Dumbo", year: 2019, genre: ["ماجراجویی", "خانوادگی", "فانتزی"], synopsis: "بازسازی زنده‌نمای فیل کوچکی که با گوش‌های بزرگش می‌تواند پرواز کند. او به نجات یک سیرک ورشکسته کمک می‌کند اما رازهای تاریکی را کشف می‌کند.", poster: "Dumbo 2019 poster" },
+            { titleFa: "فارست گامپ", titleEn: "Forrest Gump", year: 1994, genre: ["درام", "کمدی-درام", "عاشقانه"], synopsis: "مردی با ضریب هوشی پایین، در چند دهه تاریخ آمریکا به‌صورت تصادفی در رویدادهای بزرگ نقش می‌کند و عشق زندگی‌اش را پیدا می‌کند.", poster: "Forrest Gump 1994 poster" },
+            { titleFa: "مردان شجاع", titleEn: "Legends of the Fall", year: 1995, genre: ["درام", "وسترن", "عاشقانه"], synopsis: "در اوایل قرن بیستم، سه برادر در مونتانا عاشق یک زن می‌شوند و این عشق، مسیر زندگی هر سه را برای همیشه تغییر می‌دهد.", poster: "Legends of the Fall 1995 poster" },
+            { titleFa: "بیگانه", titleEn: "Arrival", year: 2016, genre: ["علمی‑تخیلی", "درام", "معمایی"], synopsis: "زبان‌شناسی تلاش می‌کند با موجودات فضایی که به زمین آمده‌اند ارتباط برقرار کند و در این مسیر به درکی جدید از زمان و حافظه می‌رسد.", poster: "Arrival 2016 poster" },
+            { titleFa: "زيبای خفته", titleEn: "Beauty and the Beast", year: 2017, genre: ["فانتزی", "عاشقانه", "خانوادگی"], synopsis: "بازسازی زنده‌نمای کلاسیک دیزنی. دختری کتاب‌خوان به قلعه جانوری می‌رود تا پدرش را نجات دهد و عشق آن را از طلسم نجات می‌دهد.", poster: "Beauty and the Beast 2017 poster" },
+            { titleFa: "بازی منصفانه", titleEn: "Badla", year: 2019, genre: ["درام", "معمایی", "هیجان‌انگیز"], synopsis: "یک کارآگاه زن و یک بازرگان ثروتمند درگیر یک معمای قتل پیچیده می‌شوند و هر کدام روایت خود را از ماجرا دارند.", poster: "Badla 2019 poster" },
+            { titleFa: "جوخه هیولاها", titleEn: "Pacific Rim", year: 2013, genre: ["اکشن", "علمی‑تخیلی", "ماجراجویی"], synopsis: "در آینده‌ای نزدیک، هیولاهایی از اعماق دریا به زمین حمله می‌کنند و انسان‌ها برای مقابله با آنها ربات‌های غول‌پیکری می‌سازند.", poster: "Pacific Rim 2013 poster" },
+            { titleFa: "آماده کردن‌های یک", titleEn: "Ready Player One", year: 2018, genre: ["ماجراجویی", "علمی‑تخیلی", "اکشن"], synopsis: "در سال 2045، نوجوانی در یک دنیای مجازی به دنبال گنج پنهان می‌گردد و رقابت سختی با یک شرکت بزرگ دارد.", poster: "Ready Player One 2018 poster" },
+            { titleFa: "تام ریدر", titleEn: "Tomb Raider", year: 2018, genre: ["اکشن", "ماجراجویی", "فانتزی"], synopsis: "لارا کرافت، دختر یک باستان‌شناس، به سفری خطرناک به جزیره‌ای مرموز می‌رود تا راز ناپدید شدن پدرش را کشف کند.", poster: "Tomb Raider 2018 poster" },
+            { titleFa: "مردی به نام عقاب", titleEn: "The Greatest Showman", year: 2017, genre: ["موزیکال", "درام", "بیوگرافی"], synopsis: "داستان واقعی پی‌تی بارنوم، خالق سیرک معروف، و تلاش او برای ساختن نمایشی بی‌نظیر و پذیرفته شدن در جامعه.", poster: "The Greatest Showman 2017 poster" },
+            { titleFa: "اولین انسان", titleEn: "First Man", year: 2018, genre: ["بیوگرافی", "درام", "تاریخی"], synopsis: "زندگی نیل آرمسترانگ و ماموریت تاریخی ناسا برای فرود انسان بر روی کره ماه از نگاه او روایت می‌شود.", poster: "First Man 2018 poster" },
+            { titleFa: "گلی بوی", titleEn: "Gully Boy", year: 2019, genre: ["درام", "موزیکال", "عاشقانه"], synopsis: "داستان یک رپر خیابانی از حومه بمبئی که با سختی‌های زندگی دست‌وپنجه نرم می‌کند تا به آرزویش برسد.", poster: "Gully Boy 2019 poster" },
+            { titleFa: "ماین ۹", titleEn: "Mine 9", year: 2019, genre: ["هیجان‌انگیز", "درام", "بقا"], synopsis: "گروهی از معدنچیان در اعماق زمین پس از یک انفجار وحشتناک گرفتار می‌شوند و اکسیژن آنها رو به اتمام است.", poster: "Mine 9 2019 poster" },
+            { titleFa: "سوپر ۳۰", titleEn: "Super 30", year: 2019, genre: ["بیوگرافی", "درام"], synopsis: "داستان واقعی ریاضیدان هندی که با وجود فقر، به ۳۰ دانش‌آموز کم‌بضاعت آموزش می‌دهد تا در کنکور IIT قبول شوند.", poster: "Super 30 2019 poster" },
+            { titleFa: "پدمن", titleEn: "Padman", year: 2018, genre: ["کمدی", "درام", "بیوگرافی"], synopsis: "داستان واقعی مردی که برای تولید نوار بهداشتی ارزان‌قیمت برای زنان روستایی هند تلاش می‌کند.", poster: "Padman 2018 poster" },
+            { titleFa: "رازی", titleEn: "Raazi", year: 2018, genre: ["هیجان‌انگیز", "درام", "جاسوسی"], synopsis: "یک دختر هندی در دوران جنگ با پاکستان به‌عنوان جاسوس به خانه یک ژنرال پاکستانی نفوذ می‌کند.", poster: "Raazi 2018 poster" },
+            { titleFa: "راید", titleEn: "Raid", year: 2018, genre: ["اکشن", "جنایی", "درام"], synopsis: "یک افسر مالیاتی فاسد در هند طی یک عملیات خطرناک، با سیاستمداران و مافیای ثروتمند روبه‌رو می‌شود.", poster: "Raid 2018 poster" },
+            { titleFa: "طلا", titleEn: "Gold", year: 2018, genre: ["درام", "تاریخی", "ورزشی"], synopsis: "داستان واقعی تیم ملی هاکی هند که پس از استقلال، در المپیک ۱۹۴۸ شرکت می‌کند و مدال طلا می‌گیرد.", poster: "Gold 2018 poster" },
+            { titleFa: "عصر ادلین", titleEn: "The Age of Adaline", year: 2015, genre: ["درام", "عاشقانه", "فانتزی"], synopsis: "زنی پس از یک تصادف، جوانی خود را برای دهه‌ها حفظ می‌کند و به‌عنوان یک زن ۲۹ ساله در قرن بیست و یکم زندگی می‌کند.", poster: "The Age of Adaline 2015 poster" },
+            { titleFa: "کوه بین ما", titleEn: "The Mountain Between Us", year: 2017, genre: ["درام", "ماجراجویی", "عاشقانه"], synopsis: "دو بازمانده از سقوط هواپیما در کوه‌های برفی گیر می‌افتند و برای زنده ماندن باید با یکدیگر همکاری کنند.", poster: "The Mountain Between Us 2017 poster" },
+            { titleFa: "کمپ جادو", titleEn: "Magic Camp", year: 2020, genre: ["کمدی", "خانوادگی", "فانتزی"], synopsis: "یک مربی سابق جادو به کمپ تابستانی جادوگری بازمی‌گردد و با گروهی از نوجوانان مستعد، ماجراهای جادویی را تجربه می‌کند.", poster: "Magic Camp 2020 poster" },
+            { titleFa: "فریک زمان", titleEn: "Time Freak", year: 2018, genre: ["کمدی", "علمی‑تخیلی", "عاشقانه"], synopsis: "پسری با ساخت یک ماشین زمان، سعی می‌کند رابطه شکست‌خورده‌اش با دوست‌دخترش را دوباره زنده کند.", poster: "Time Freak 2018 poster" }
+        ];
+
+        const series = [
+            { titleFa: "تاج و تخت", titleEn: "Game of Thrones", year: "۲۰۱۱-۲۰۱۹", genre: ["فانتزی", "درام", "حماسی"], synopsis: "هفت پادشاهی در دنیای خیالی وستروس برای نشستن بر تخت آهنین می‌جنگند، در حالی که تهدید یخ‌زده‌ای از شمال در حال پیشروی است.", poster: "Game of Thrones poster" },
+            { titleFa: "تاریکی", titleEn: "Dark", year: "۲۰۱۷-۲۰۲۰", genre: ["علمی‑تخیلی", "معمایی", "هیجان‌انگیز"], synopsis: "در یک شهر کوچک آلمانی، ناپدید شدن کودکان، شبکه‌ای از روابط خانوادگی و سفرهای زمانی را در چند نسل آشنا می‌کند.", poster: "Dark 2017 poster" },
+            { titleFa: "خانه کاغذی", titleEn: "Money Heist (La Casa de Papel)", year: "۲۰۱۷-۲۰۲۱", genre: ["جنایی", "هیجان‌انگیز", "درام"], synopsis: "گروهی از سارقان به رهبری «پروفسور» نقشه جسورانه‌ای برای دستبرد به ضرابخانه اسپانیا طرح‌ریزی می‌کنند.", poster: "Money Heist poster" },
+            { titleFa: "پیکی بلایندرز", titleEn: "Peaky Blinders", year: "۲۰۱۳-۲۰۲۲", genre: ["جنایی", "درام", "تاریخی"], synopsis: "خلافکاران بیرمنگام پس از جنگ جهانی اول، به‌ریاست تامی شلبی، امپراتوری خود را گسترش می‌دهند و با پلیس، سیاستمداران و مافیا درگیر می‌شوند.", poster: "Peaky Blinders poster" },
+            { titleFa: "کبرا کای", titleEn: "Cobra Kai", year: "۲۰۱۸-۲۰۲۵", genre: ["کمدی-درام", "اکشن", "ورزشی"], synopsis: "۳۰ سال پس از فیلم «بچه کاراته‌کار»، رقابت دوباره میان جانی لارنس و دنی لاروسو شعله‌ور می‌شود و این بار از شاگردانشان استفاده می‌کنند.", poster: "Cobra Kai poster" }
+        ];
+
+        const animations = [
+            { titleFa: "ابومینبل (نفرین‌شده)", titleEn: "Abominable", year: 2019, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "دختری جوان با یک یاکوزی (نوعی موجود افسانه‌ای) دوست می‌شود و برای بازگرداندن او به کوه‌های هیمالیا سفر می‌کند.", poster: "Abominable 2019 poster" },
+            { titleFa: "پرندگان خشمگین ۲", titleEn: "Angry Birds 2", year: 2019, genre: ["کمدی", "ماجراجویی", "انیمیشن"], synopsis: "پرندگان و خوک‌ها برای مقابله با تهدیدی جدید متحد می‌شوند و ماجراهای خنده‌داری را تجربه می‌کنند.", poster: "Angry Birds 2 2019 poster" },
+            { titleFa: "بابویی‌بوی ۲", titleEn: "BoBoiBoy Movie 2", year: 2019, genre: ["اکشن", "ماجراجویی", "انیمیشن"], synopsis: "سوپرمن پسر جوان با دوستانش با تهدیدات فضایی مبارزه می‌کند و قدرت‌های جدیدی کشف می‌کند.", poster: "BoBoiBoy Movie 2 2019 poster" },
+            { titleFa: "ماشین‌ها ۳", titleEn: "Cars 3", year: 2017, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "لایتنینگ مک‌کوئین، قهرمان مسابقه‌ها، با نسلی جدید از ماشین‌های سریعتر روبه‌رو می‌شود و باید برای بقا تلاش کند.", poster: "Cars 3 2017 poster" },
+            { titleFa: "داستان تو - اژدها", titleEn: "Dragon Quest: Your Story", year: 2019, genre: ["فانتزی", "ماجراجویی", "انیمیشن"], synopsis: "پسر جوانی به دنبال نجات مادرش از دست هیولاها، به سفری حماسی در دنیای اژدهاها می‌رود.", poster: "Dragon Quest Your Story 2019 poster" },
+            { titleFa: "دوری را پیدا کن", titleEn: "Finding Dory", year: 2016, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "دوری، ماهی فراموشکار، برای پیدا کردن خانواده‌اش به اقیانوس آرام سفر می‌کند.", poster: "Finding Dory 2016 poster" },
+            { titleFa: "گانتز او", titleEn: "Gantz O", year: 2016, genre: ["اکشن", "علمی‑تخیلی", "انیمیشن"], synopsis: "نوجوانی پس از مرگ در یک بازی مرگبار شرکت می‌کند و باید با هیولاهای عجیب مبارزه کند.", poster: "Gantz O 2016 poster" },
+            { titleFa: "هتل ترانسیلوانیا ۳", titleEn: "Hotel Transylvania 3", year: 2018, genre: ["کمدی", "خانوادگی", "فانتزی"], synopsis: "دراکولا و دوستانش به یک سفر دریایی می‌روند و در آنجا عاشق کاپیتان کشتی می‌شود.", poster: "Hotel Transylvania 3 2018 poster" },
+            { titleFa: "چگونه اژدهایت را تربیت کنی ۳", titleEn: "How to Train Your Dragon 3", year: 2019, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "بیرک و اژدهایش، توت‌فرنگی، باید از مخفیگاه پنهان اژدهاها محافظت کنند و تهدیدی جدید را شکست دهند.", poster: "How to Train Your Dragon 3 2019 poster" },
+            { titleFa: "شگفت‌انگیزان ۲", titleEn: "Incredibles 2", year: 2018, genre: ["اکشن", "ماجراجویی", "خانوادگی"], synopsis: "خانواده سوپرمن‌ها این بار با ماموریت جدیدی برای بازگرداندن اعتبار سوپرمن‌ها به جامعه روبرو می‌شوند.", poster: "Incredibles 2 2018 poster" },
+            { titleFa: "کوبو و دو تار", titleEn: "Kubo and the Two Strings", year: 2016, genre: ["ماجراجویی", "فانتزی", "خانوادگی"], synopsis: "پسر کوچکی با توانایی جادویی، برای نجات خانواده‌اش به سفری در ژاپن باستان می‌رود.", poster: "Kubo and the Two Strings 2016 poster" },
+            { titleFa: "رالف اینترنت را می‌شکند", titleEn: "Ralph Breaks the Internet", year: 2018, genre: ["کمدی", "ماجراجویی", "خانوادگی"], synopsis: "رالف و پنلوپی برای تعمیر یک بازی آرکید وارد دنیای اینترنت می‌شوند و ماجراهای دیوانه‌وار را تجربه می‌کنند.", poster: "Ralph Breaks the Internet 2018 poster" },
+            { titleFa: "سگ راک", titleEn: "Rock Dog", year: 2016, genre: ["کمدی", "ماجراجویی", "موزیکال"], synopsis: "سگی در کوه‌های تبت آرزو دارد که نوازنده راک شود و برای همین راهی شهر می‌شود.", poster: "Rock Dog 2016 poster" },
+            { titleFa: "شرک", titleEn: "Shrek", year: 2001, genre: ["کمدی", "ماجراجویی", "خانوادگی"], synopsis: "یک غول سبز برای نجات شاهزاده‌ای از دست یک اژدها، با یک خر حرف‌زن همراه می‌شود.", poster: "Shrek 2001 poster" },
+            { titleFa: "بخوان ۲۰۱۶", titleEn: "Sing", year: 2016, genre: ["کمدی", "موزیکال", "خانوادگی"], synopsis: "یک کوآلا برای نجات تئاتر خود مسابقه آواز برگزار می‌کند و حیوانات مختلفی با آرزوهای بزرگ شرکت می‌کنند.", poster: "Sing 2016 poster" },
+            { titleFa: "اسموفها: دهکده گمشده", titleEn: "Smurfs: The Lost Village", year: 2017, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "اسموف‌ها به دنبال دهکده مخفی دیگری از همنوعان خود می‌گردند و با ماجراهای جدیدی روبرو می‌شوند.", poster: "Smurfs The Lost Village 2017 poster" },
+            { titleFa: "زندگی مخفی حیوانات خانگی", titleEn: "The Secret Life of Pets", year: 2016, genre: ["کمدی", "ماجراجویی", "خانوادگی"], synopsis: "زندگی حیوانات خانگی در زمانی که صاحبانشان در خانه نیستند، پر از ماجراهای خنده‌دار است.", poster: "The Secret Life of Pets 2016 poster" },
+            { titleFa: "داستان اسباب‌بازی ۴", titleEn: "Toy Story 4", year: 2019, genre: ["ماجراجویی", "کمدی", "خانوادگی"], synopsis: "وودی و دوستانش با یک اسباب‌بازی جدید به نام «آلی» آشنا می‌شوند و به ماجراجویی جدیدی می‌روند.", poster: "Toy Story 4 2019 poster" },
+            { titleFa: "تور جهانی ترول‌ها", titleEn: "Trolls World Tour", year: 2020, genre: ["کمدی", "موزیکال", "ماجراجویی"], synopsis: "ترول‌ها برای متحد کردن شش قبیله موسیقی به سفر می‌روند و با تهدید جدیدی روبرو می‌شوند.", poster: "Trolls World Tour 2020 poster" },
+            { titleFa: "ویلی ۲۰۱۸", titleEn: "Wheely", year: 2018, genre: ["کمدی", "ماجراجویی", "خانوادگی"], synopsis: "یک ماشین مسابقه‌ای کوچک با دوستانش ماجراهای خنده‌داری را در شهر تجربه می‌کند.", poster: "Wheely 2018 poster" },
+            { titleFa: "اسم تو", titleEn: "Your Name", year: 2016, genre: ["درام", "عاشقانه", "فانتزی"], synopsis: "دو نوجوان در ژاپن که هرگز همدیگر را ندیده‌اند، به‌طور مرموزی بدن‌هایشان را با یکدیگر عوض می‌کنند.", poster: "Your Name 2016 poster" }
+        ];
+
+        const actionMovies = [
+            { titleFa: "بزرگ‌برادر ۲۰۱۸", titleEn: "Big Brother", year: 2018, genre: ["اکشن", "درام", "ورزشی"], synopsis: "یک معلم سابق نیروی ویژه به مدرسه‌ای بازمی‌گردد و با دانش‌آموزان قلدر و مشکلات اجتماعی مبارزه می‌کند.", poster: "Big Brother 2018 poster" },
+            { titleFa: "بیگانه (بیگانه)", titleEn: "Boyka Undisputed IV", year: 2016, genre: ["اکشن", "ورزشی", "درام"], synopsis: "یوری بویکا، قهرمان مبارزات غیرقانونی، برای رهایی از گذشته تاریک خود و نجات یک زن، وارد مبارزه‌ای خطرناک می‌شود.", poster: "Boyka Undisputed IV 2016 poster" },
+            { titleFa: "ندای قهرمانان", titleEn: "Call of Heroes", year: 2016, genre: ["اکشن", "تاریخی", "درام"], synopsis: "در چین باستان، یک جنگجوی وفادار در برابر ظلم یک فرمانده فاسد و نیروهایش مقاومت می‌کند.", poster: "Call of Heroes 2016 poster" },
+            { titleFa: "کرید ۲", titleEn: "Creed II", year: 2018, genre: ["اکشن", "درام", "ورزشی"], synopsis: "آدونیس کرید، پسر آپولو کرید، برای انتقام پدرش با پسر ایوان دراگو وارد رینگ بوکس می‌شود.", poster: "Creed II 2018 poster" },
+            { titleFa: "دانگل", titleEn: "Dangal", year: 2016, genre: ["اکشن", "بیوگرافی", "درام"], synopsis: "داستان واقعی یک کشتی‌گیر هندی که دو دخترش را برخلاف سنت‌ها، قهرمان کشتی جهان می‌کند.", poster: "Dangal 2016 poster" },
+            { titleFa: "ایپ من ۴", titleEn: "Ip Man 4", year: 2019, genre: ["اکشن", "بیوگرافی", "درام"], synopsis: "استاد بزرگ وینگ‌چون برای یافتن مدرسه برای پسرش به آمریکا می‌رود و درگیر تنش‌های نژادی و مبارزه با نظامیان آمریکایی می‌شود.", poster: "Ip Man 4 2019 poster" },
+            { titleFa: "بوکسور ۲۰۱۸", titleEn: "Kickboxer 2018", year: 2018, genre: ["اکشن", "ورزشی", "درام"], synopsis: "مبارزی برای نجات برادرش و انتقام از یک سازمان زیرزمینی، دوباره به رینگ موی تای بازمی‌گردد.", poster: "Kickboxer 2018 poster" },
+            { titleFa: "دانک کونگ فو", titleEn: "Kung Fu Dunk", year: 2008, genre: ["اکشن", "کمدی", "ورزشی"], synopsis: "یک جوان با مهارت‌های کونگ فو، در تیم بسکتبال دانشگاه به بازیکنی ستاره تبدیل می‌شود.", poster: "Kung Fu Dunk 2008 poster" },
+            { titleFa: "یوگا کونگ فو", titleEn: "Kung Fu Yoga", year: 2017, genre: ["اکشن", "کمدی", "ماجراجویی"], synopsis: "باستان‌شناسان برای یافتن گنجینه‌ای باستانی از چین به هند می‌روند و با دزدان درگیر می‌شوند.", poster: "Kung Fu Yoga 2017 poster" },
+            { titleFa: "بانوی مبارز", titleEn: "Lady Bloodfight", year: 2016, genre: ["اکشن", "درام", "ورزشی"], synopsis: "یک زن آمریکایی برای انتقام از مرگ پدرش، در مسابقات مبارزات زیرزمینی در هنگ‌کنگ شرکت می‌کند.", poster: "Lady Bloodfight 2016 poster" },
+            { titleFa: "مری کوم", titleEn: "Mary Kom", year: 2014, genre: ["اکشن", "بیوگرافی", "درام"], synopsis: "داستان واقعی مری کوم، بوکسور زن هندی که پس از مادر شدن دوباره به رینگ بازمی‌گردد و قهرمان می‌شود.", poster: "Mary Kom 2014 poster" },
+            { titleFa: "اسکیپ‌تریس", titleEn: "Skiptrace", year: 2016, genre: ["اکشن", "کمدی", "ماجراجویی"], synopsis: "یک کارآگاه هنگ‌کنگی و یک کلاهبردار آمریکایی در چین برای یافتن یک آدم‌کش با هم متحد می‌شوند.", poster: "Skiptrace 2016 poster" },
+            { titleFa: "تونگ دی", titleEn: "Thong Dee Fun Khao", year: 2017, genre: ["اکشن", "تاریخی", "درام"], synopsis: "داستان یک جنگجوی تایلندی در دوران باستان که با قدرت موی تای با دشمنان می‌جنگد.", poster: "Thong Dee Fun Khao 2017 poster" },
+            { titleFa: "شکست‌ناپذیر ۱", titleEn: "Undisputed 1", year: 2002, genre: ["اکشن", "ورزشی", "درام"], synopsis: "یک قهرمان بوکس سنگین‌وزن در زندان با یک مبارز زیرزمینی وارد مبارزه‌ای مرگبار می‌شود.", poster: "Undisputed 2002 poster" }
+        ];
+
+        const otherMovies = [
+            { titleFa: "کالکشن هری پاتر", titleEn: "Harry Potter Collection", year: "۲۰۰۱-۲۰۱۱", genre: ["فانتزی", "ماجراجویی", "خانوادگی"], synopsis: "مجموعه کامل فیلم‌های هری پاتر، داستان پسر جادوگری که در مدرسه جادوگری هاگوارتز با دوستانش مبارزه با نیروهای تاریکی را می‌آموزد.", poster: "Harry Potter collection poster" },
+            { titleFa: "آرزوهای کوچولو", titleEn: "Little Wishes", year: "نامشخص", genre: ["درام", "خانوادگی"], synopsis: "داستانی درباره امیدها و آرزوهای کودکان در یک روستای دورافتاده.", poster: "Little Wishes poster" },
+            { titleFa: "انتقام جویان جنگ ابر قدرت‌ها", titleEn: "Avengers: War of Superpowers", year: "نامشخص", genre: ["اکشن", "ماجراجویی"], synopsis: "قهرمانان برای نجات جهان از دست یک تهدید کیهانی جدید متحد می‌شوند.", poster: "Avengers War of Superpowers poster" },
+            { titleFa: "بچه رئیس", titleEn: "Boss Baby", year: 2017, genre: ["کمدی", "خانوادگی", "انیمیشن"], synopsis: "یک نوزاد کت‌وشلوارپوش با توانایی‌های خاص، برای مقابله با یک توطئه شرکتی با برادر بزرگترش همکاری می‌کند.", poster: "Boss Baby 2017 poster" },
+            { titleFa: "بین تن (دو قسمت)", titleEn: "Ben 10 (Two Parts)", year: "نامشخص", genre: ["اکشن", "ماجراجویی", "انیمیشن"], synopsis: "پسر نوجوانی با استفاده از ساعت جادویی به موجودات فضایی مختلف تبدیل می‌شود و با تهدیدات مبارزه می‌کند.", poster: "Ben 10 poster" },
+            { titleFa: "پاندا (۱۰، ۱۵، پاچال)", titleEn: "Panda (10, 15, Pachaal)", year: "نامشخص", genre: ["کمدی", "خانوادگی", "انیمیشن"], synopsis: "ماجراهای یک پاندا بامزه و دوستانش در جنگل.", poster: "Panda cartoon poster" },
+            { titleFa: "پاندای کونگ‌فوکار", titleEn: "Kung Fu Panda", year: 2008, genre: ["کمدی", "اکشن", "انیمیشن"], synopsis: "یک پاندا تنبل و چاق برای رسیدن به رویای خود، استاد کونگ فو می‌شود و دهکده را از دست یک تهدید نجات می‌دهد.", poster: "Kung Fu Panda 2008 poster" },
+            { titleFa: "تام و جری", titleEn: "Tom and Jerry", year: "نامشخص", genre: ["کمدی", "خانوادگی", "انیمیشن"], synopsis: "ماجراهای خنده‌دار گربه‌ای به نام تام و موشی به نام جری که همیشه در حال تعقیب و گریز هستند.", poster: "Tom and Jerry cartoon poster" },
+            { titleFa: "تنها در خانه ۵", titleEn: "Home Alone 5", year: 2012, genre: ["کمدی", "خانوادگی"], synopsis: "پسر کوچکی برای محافظت از خانه در برابر دزدها بار دیگر نقشه‌های بامزه و حیله‌گرانه می‌کشد.", poster: "Home Alone 5 2012 poster" },
+            { titleFa: "شیر شاه", titleEn: "The Lion King", year: 2019, genre: ["ماجراجویی", "درام", "خانوادگی"], synopsis: "بازسازی زنده‌نمای کلاسیک دیزنی. سیمبا، شیر جوان، برای گرفتن جایگاهش به عنوان پادشاه باید با گذشته خود روبرو شود.", poster: "The Lion King 2019 poster" },
+            { titleFa: "عصر یخبندان ۲۰۱۶", titleEn: "Ice Age 2016", year: 2016, genre: ["کمدی", "ماجراجویی", "خانوادگی"], synopsis: "مینیون‌های بامزه در عصر یخبندان به دنبال ماجراهای جدید و نجات دوستانشان می‌روند.", poster: "Ice Age 2016 poster" },
+            { titleFa: "فوتبال دستی", titleEn: "Footbal Dasti", year: "نامشخص", genre: ["کمدی", "ورزشی", "خانوادگی"], synopsis: "گروهی از نوجوانان در یک محله با استفاده از مهارت‌های فوتبال‌شان، قهرمان یک تورنمنت محلی می‌شوند.", poster: "Footbal Dasti poster" },
+            { titleFa: "ماشا و میشا", titleEn: "Masha and the Bear", year: "نامشخص", genre: ["کمدی", "خانوادگی", "انیمیشن"], synopsis: "دختر کوچک بازیگوشی به نام ماشا با یک خرس بزرگ و مهربان، ماجراهای روزمره و خنده‌دار دارند.", poster: "Masha and the Bear poster" },
+            { titleFa: "شهزاد ۲ و ۳", titleEn: "Shahzad 2 & 3", year: "نامشخص", genre: ["درام", "تاریخی", "خانوادگی"], synopsis: "دنباله سریال تاریخی و خانوادگی شهزاد که داستان یک خانواده را در دوره قاجار روایت می‌کند.", poster: "Shahzad series poster" },
+            { titleFa: "رقص روی شیشه", titleEn: "Dance on Glass", year: "نامشخص", genre: ["درام", "عاشقانه"], synopsis: "داستان عاشقانه و پر فراز و نشیب یک زوج جوان در تهران مدرن.", poster: "Dance on Glass poster" },
+            { titleFa: "تو درم را بزن", titleEn: "Knock on My Door", year: "نامشخص", genre: ["درام", "اجتماعی"], synopsis: "داستان یک خانواده ایرانی در مواجهه با مشکلات اجتماعی و اقتصادی.", poster: "Knock on My Door poster" }
+        ];
+
+        // ============================================================
+        // تابع تولید کارت
+        // ============================================================
+
+        function renderCards(data, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            let html = '';
+            data.forEach(item => {
+                const genreTags = item.genre.map(g => `<span class="genre-tag">${g}</span>`).join('');
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ${item.titleFa}
+                                <span class="card-title-en">${item.titleEn}</span>
+                            </div>
+                            <span class="card-year">${item.year}</span>
+                        </div>
+                        <div class="card-genre">${genreTags}</div>
+                        <div class="card-synopsis">${item.synopsis}</div>
+                        <div class="card-poster">${item.poster}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // اجرای رندر
+        // ============================================================
+
+        renderCards(movies, 'movieGrid');
+        renderCards(series, 'seriesGrid');
+        renderCards(animations, 'animationGrid');
+        renderCards(actionMovies, 'actionGrid');
+        renderCards(otherMovies, 'otherGrid');
+    </script>
+</body>
+</html>
